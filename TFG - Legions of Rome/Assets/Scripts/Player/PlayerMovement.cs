@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
     public bool isMovementBloked = false;
+    public bool isDashing = false;
 
     public Rigidbody2D rb;
     public PlayerVisuals visuals;
@@ -42,6 +43,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDashing) return;
+
         if (isMovementBloked)
         {
             rb.linearVelocity = Vector2.zero;
