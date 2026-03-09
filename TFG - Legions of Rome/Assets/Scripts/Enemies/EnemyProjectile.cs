@@ -4,7 +4,7 @@ public class EnemyProjectile : MonoBehaviour
 {
     public float speed = 8f;
     public float lifetime = 1.75f;
-    public int damage = 10;
+    public int damage = 15;
     public LayerMask playerLayer;
 
     public void Setup(Vector2 direction)
@@ -22,6 +22,11 @@ public class EnemyProjectile : MonoBehaviour
         if (((1 << other.gameObject.layer) & playerLayer) != 0)
         {
             Debug.Log("¡La flecha ha impactado al jugador!");
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+            }
             Destroy(gameObject);
         }
     }

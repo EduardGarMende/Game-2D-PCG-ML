@@ -27,4 +27,12 @@ public class PlayerVisuals : MonoBehaviour
             anim.SetTrigger("Attack");
         }
     }
+
+    public void TriggerDeath()
+    {
+        foreach (Animator anim in animators)
+        {
+            anim.SetTrigger("Die");
+        }
+    }
 }

@@ -23,8 +23,11 @@ public class MeleeEnemy : Enemy
         Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPosition, attackRadius, playerLayer);
         foreach (Collider2D hit in hitPlayers)
         {
-            Debug.Log("¡El enemigo ha dado un espadazo al Jugador!");
-            // hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+            PlayerHealth playerHealth = hit.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+            }
         }
     }
 

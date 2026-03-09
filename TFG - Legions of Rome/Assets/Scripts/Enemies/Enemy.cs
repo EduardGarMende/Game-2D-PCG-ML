@@ -107,6 +107,18 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
-        Destroy(gameObject);
+        Debug.Log($"{gameObject.name} has died.");
+
+        GetComponent<Collider2D>().enabled = false;
+        rb.linearVelocity = Vector2.zero;
+
+        this.enabled = false;
+
+        foreach (Animator anim in animators)
+        {
+                anim.SetTrigger("Die");
+        }
+
+        Destroy(gameObject, 2f);
     }
 }

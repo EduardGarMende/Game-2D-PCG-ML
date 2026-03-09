@@ -10,6 +10,7 @@ public class PlayerCombat : MonoBehaviour
 
     public float atacDuration = 0.4f;
     public float attackDelay = 0.2f;
+    public float attackDamage = 20f;
 
     public Transform attackCenter;
     public float attackRadius = 0.6f;
@@ -57,8 +58,11 @@ public class PlayerCombat : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("Enemy Hit: " + enemy.name);
-            // Aquí puedes agregar lógica para dañar al enemigo, como llamar a un método en su script de salud.
+            Enemy enemyScript = enemy.GetComponent<Enemy>();
+            if (enemyScript != null)
+            {
+                enemyScript.TakeDamage(attackDamage);
+            }
         }
 
         yield return new WaitForSeconds(atacDuration - attackDelay);

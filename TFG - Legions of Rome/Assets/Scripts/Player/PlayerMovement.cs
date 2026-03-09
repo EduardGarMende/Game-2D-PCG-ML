@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 5f;
     public bool isMovementBloked = false;
     public bool isDashing = false;
+    [HideInInspector] public bool isDead = false;
 
     public Rigidbody2D rb;
     public PlayerVisuals visuals;
@@ -21,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (isDead) return;
         moveInput = controls.Gameplay.Move.ReadValue<Vector2>();
 
         if (moveInput.sqrMagnitude > 0.01f)
@@ -43,6 +45,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDead)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         if (isDashing) return;
 
         if (isMovementBloked)

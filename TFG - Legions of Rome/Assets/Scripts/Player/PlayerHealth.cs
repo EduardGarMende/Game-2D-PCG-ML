@@ -9,6 +9,9 @@ public class PlayerHealth : MonoBehaviour
     public bool isInvulnerable = false;
     public bool isShieldActive = false;
 
+    public PlayerMovement movement;
+    public PlayerVisuals visuals;
+
     public static event Action<float, float> OnHealthChanged;
     public static event Action<float> OnDamageTaken;
     public static event Action OnShieldBroken;
@@ -46,7 +49,15 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
+        if (movement.isDead) return;
+
+        movement.isDead = true;
+        visuals.TriggerDeath();
+
         OnPlayerDeath?.Invoke();
-        // Additional death logic (e.g., play animation, disable controls) can be added here
+        
+        GetComponent<Collider2D>().enabled = false;
+
+        Debug.Log("Game Over");
     }
 }

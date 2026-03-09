@@ -4,6 +4,7 @@ public class Projectile : MonoBehaviour
 {
     public float speed = 10f;
     public float lifetime = 2f;
+    public int damage = 35;
     public Rigidbody2D rb;
 
     public void Setup(Vector2 direction)
@@ -21,6 +22,11 @@ public class Projectile : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             Debug.Log("Projectile hit: " + collision.name);
+            Enemy enemy = collision.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+            }
             Destroy(gameObject);
         }
     }
