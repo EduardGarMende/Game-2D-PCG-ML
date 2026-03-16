@@ -7,12 +7,14 @@ public class UIManager : MonoBehaviour
     public Slider healthBar;
     public Image dashCooldownImage;
     public Image shieldCooldownImage;
+    public Image rangedCooldownImage;
 
     private void OnEnable()
     {
         PlayerHealth.OnHealthChanged += UpdateHealthUI;
         PlayerSkills.OnDashUsed += StartDashCooldown;
         PlayerSkills.OnShieldUsed += StartShieldCooldown;   
+        PlayerCombat.OnRangedUsed += StartRangedCooldown;
     }
 
     private void OnDisable()
@@ -20,6 +22,7 @@ public class UIManager : MonoBehaviour
         PlayerHealth.OnHealthChanged -= UpdateHealthUI;
         PlayerSkills.OnDashUsed -= StartDashCooldown;
         PlayerSkills.OnShieldUsed -= StartShieldCooldown;
+        PlayerCombat.OnRangedUsed -= StartRangedCooldown;
     }
 
     private void UpdateHealthUI(float currentHealth, float maxHealth)
@@ -35,6 +38,11 @@ public class UIManager : MonoBehaviour
     private void StartShieldCooldown(float cooldown)
     {
         StartCoroutine(CooldownRoutine(shieldCooldownImage, cooldown));
+    }
+
+    private void StartRangedCooldown(float cooldown)
+    {
+        StartCoroutine(CooldownRoutine(rangedCooldownImage, cooldown));
     }
 
     IEnumerator CooldownRoutine(Image cooldownImage, float cooldownDuration)

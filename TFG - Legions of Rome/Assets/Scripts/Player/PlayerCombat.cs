@@ -1,6 +1,6 @@
 using UnityEngine;
+using System;
 using System.Collections;
-using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -24,6 +24,7 @@ public class PlayerCombat : MonoBehaviour
 
     private bool isAttacking = false;
     private GameControls controls;
+    public static event Action<float> OnRangedUsed;
 
     private void Awake() => controls = new GameControls();
 
@@ -77,6 +78,8 @@ public class PlayerCombat : MonoBehaviour
         playerMovement.isMovementBloked = true;
 
         nextRangedTime = Time.time + rangedCooldown;
+
+        OnRangedUsed?.Invoke(rangedCooldown);
 
         if (swordVisuals != null)
         {

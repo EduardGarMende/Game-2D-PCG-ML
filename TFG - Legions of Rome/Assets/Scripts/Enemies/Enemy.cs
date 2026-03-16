@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
@@ -102,6 +103,25 @@ public abstract class Enemy : MonoBehaviour
         if (currentHealth <= 0)
         {
             Die();
+        }
+        else
+        {
+            StartCoroutine(DamageFlashRoutine());
+        }
+    }
+
+    protected IEnumerator DamageFlashRoutine()
+    {
+        foreach (Animator anim in animators)
+        {
+            anim.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+
+        yield return new WaitForSeconds(0.15f);
+
+        foreach (Animator anim in animators)
+        {
+            anim.GetComponent<SpriteRenderer>().color = Color.white;  // White significa sin filtro de color, mostrando el sprite original
         }
     }
 

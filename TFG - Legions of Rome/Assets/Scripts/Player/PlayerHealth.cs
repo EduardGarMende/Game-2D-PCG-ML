@@ -1,5 +1,7 @@
 using UnityEngine;
 using System;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -58,6 +60,12 @@ public class PlayerHealth : MonoBehaviour
         
         GetComponent<Collider2D>().enabled = false;
 
-        Debug.Log("Game Over");
+        StartCoroutine(GameOverRoutine());
+    }
+
+    private IEnumerator GameOverRoutine()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
