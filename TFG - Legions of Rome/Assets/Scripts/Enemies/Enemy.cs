@@ -139,6 +139,12 @@ public abstract class Enemy : MonoBehaviour
                 anim.SetTrigger("Die");
         }
 
+        Room currentRoom = FindFirstObjectByType<Room>();
+        if (currentRoom != null)
+        {
+            currentRoom.EnemyKilled();
+        }
+
         Destroy(gameObject, 2f);
     }
 }

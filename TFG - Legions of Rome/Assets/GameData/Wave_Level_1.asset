@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2edc9fc715c0b1e46b932dc3d6f6dcd8, type: 3}
+  m_Name: Wave_Level_1
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyWaveData
+  allowedEnemies:
+  - {fileID: 5580399802619953472, guid: 2325e32a13da005409bf6693bb32e2bc, type: 3}
+  - {fileID: 4236266645130125400, guid: 30756e26eba1a324b9d205cebcc68af2, type: 3}
+  minEnemies: 2
+  maxEnemies: 6
