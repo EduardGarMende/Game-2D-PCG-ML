@@ -1,5 +1,7 @@
+using NUnit.Framework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Room : MonoBehaviour
@@ -51,11 +53,18 @@ public class Room : MonoBehaviour
         if (waveData == null) yield break;
 
         int enemiesToSpawn = UnityEngine.Random.Range(waveData.minEnemies, waveData.maxEnemies + 1);
+        enemiesToSpawn = Mathf.Min(enemiesToSpawn, spawnPoints.Length); // Asegura que no se intente spawnear más enemigos que puntos disponibles
+
         activeEnemies = enemiesToSpawn;
+
+        List<Transform> availableSpawnPoints = new List<Transform>(spawnPoints);
 
         for (int i = 0; i < enemiesToSpawn; i++)
         {
-            Transform randomNode = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
+            int randomIndex = UnityEngine.Random.Range(0, availableSpawnPoints.Count);
+            Transform randomNode = availableSpawnPoints[randomIndex];
+
+            availableSpawnPoints.RemoveAt(randomIndex); // Evita reutilizar el mismo punto de spawn
 
             if (telegraphWarningPrefab != null)
             {

@@ -1985,9 +1985,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomManager
   player: {fileID: 1039924241}
-  roomPrefab: {fileID: 8342960356939117312, guid: 2d3af3732aee31740b318b2d51c9e3b0, type: 3}
+  roomPrefabs:
+  - {fileID: 8342960356939117312, guid: 2d3af3732aee31740b318b2d51c9e3b0, type: 3}
+  - {fileID: 8391805109752486776, guid: e560216462d5f0f4eaa13bf7f3d18bf9, type: 3}
+  - {fileID: 5457798074772015963, guid: 0f75abe59abe7b745bf3088c711a9643, type: 3}
+  - {fileID: 8578669475787797232, guid: 943a17865fac1e44196f2c8579b23782, type: 3}
   possibleRewards:
   - {fileID: 11400000, guid: 4247ace05b392a84abc7531cff1e3657, type: 2}
+  - {fileID: 11400000, guid: 84834b1445f41de4f8ed16ff86f6d685, type: 2}
+  - {fileID: 11400000, guid: 1c7e2ccc82d31bd408eefc20b1b259ae, type: 2}
+  - {fileID: 11400000, guid: 10a0e7382bb1bf14583bd1e4235b3f53, type: 2}
+  - {fileID: 11400000, guid: b317e621b20234d4bad19c60b8b739bb, type: 2}
+  - {fileID: 11400000, guid: 00f14a6f5ded81b40923cfa1527aa471, type: 2}
 --- !u!4 &1630441747
 Transform:
   m_ObjectHideFlags: 0

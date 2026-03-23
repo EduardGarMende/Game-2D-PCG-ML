@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoomManager : MonoBehaviour
 {
     public GameObject player;
-    public GameObject roomPrefab;
+    public GameObject[] roomPrefabs;
 
     public RoomRewardData[] possibleRewards;
 
@@ -35,6 +35,9 @@ public class RoomManager : MonoBehaviour
             Destroy(currentRoom.gameObject);
         }
 
+        int randomIndex = Random.Range(0, roomPrefabs.Length);
+        GameObject roomPrefab = roomPrefabs[randomIndex];
+
         GameObject newRoomObj = Instantiate(roomPrefab, Vector3.zero, Quaternion.identity);
         currentRoom = newRoomObj.GetComponent<Room>();
         
@@ -52,11 +55,16 @@ public class RoomManager : MonoBehaviour
     {
         Debug.Log("¡Sala completada! Generando puertas de salida...");
 
+        List<RoomRewardData> rewardsList = new List<RoomRewardData>(possibleRewards);
+
         // Cuando mueren los enemigos, recorremos todas las puertas de salida
         foreach (ExitDoor door in clearedRoom.doors)
         {
             // Elegimos una recompensa aleatoria de nuestra lista
-            RoomRewardData randomReward = possibleRewards[Random.Range(0, possibleRewards.Length)];
+            int randomRewardIndex = Random.Range(0, rewardsList.Count);
+            RoomRewardData randomReward = rewardsList[randomRewardIndex];
+
+            rewardsList.RemoveAt(randomRewardIndex); // Evitamos repetir recompensas en otras puertas
 
             // Le decimos a la puerta que se abra y muestre esa recompensa
             door.OpenDoor(randomReward);

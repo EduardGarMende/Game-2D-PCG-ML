@@ -5,7 +5,7 @@ public abstract class Enemy : MonoBehaviour
 {
     public float maxHealth = 100f;
     protected float currentHealth;
-    public float speed = 2f;
+    public float speed = 2.5f;
 
     public Vector2 attackRange = new Vector2(1.2f, 0.8f);
     public float attackCooldown = 1f;
@@ -21,6 +21,7 @@ public abstract class Enemy : MonoBehaviour
     {
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
+
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
 
         if (playerObj != null)
@@ -33,28 +34,13 @@ public abstract class Enemy : MonoBehaviour
     {
         if (player == null) return;
 
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        Vector2 directionToPlayer = (player.position - transform.position).normalized;
-
-        if (Mathf.Abs(directionToPlayer.x) > Mathf.Abs(directionToPlayer.y))
-            facingDir = new Vector2(Mathf.Sign(directionToPlayer.x), 0);
-        else
-            facingDir = new Vector2(0, Mathf.Sign(directionToPlayer.y));
-
-        foreach (Animator anim in animators)
-        {
-            anim.SetFloat("InputX", facingDir.x);
-            anim.SetFloat("InputY", facingDir.y);
-        }
-
         float distanceX = Mathf.Abs(player.position.x - transform.position.x);
         float distanceY = Mathf.Abs(player.position.y - transform.position.y);
-
         bool isInAttackRange = (distanceX <= attackRange.x) && (distanceY <= attackRange.y);
 
         if (!isInAttackRange && Time.time >= nextAttackTime)
         {
-            MoveTowardsPlayer(directionToPlayer);
+            MoveTowardsPlayer();
         }
         else if (isInAttackRange && Time.time >= nextAttackTime)
         {
@@ -66,21 +52,47 @@ public abstract class Enemy : MonoBehaviour
         {
             StopMovement();
         }
-    }
 
-    protected virtual void MoveTowardsPlayer(Vector2 direction)
-    {
-        rb.linearVelocity = direction * speed;
+        if (rb.linearVelocity.sqrMagnitude > 0.1f)
+        {
+            if (Mathf.Abs(rb.linearVelocity.x) > Mathf.Abs(rb.linearVelocity.y))
+            {
+                facingDir = facingDir = new Vector2(Mathf.Sign(rb.linearVelocity.x), 0);
+            }
+            else
+            {
+                facingDir = new Vector2(0, Mathf.Sign(rb.linearVelocity.y));
+            }
+        }
+        else
+        {
+            Vector2 dirToPlayer = (player.position - transform.position).normalized;
+            if (Mathf.Abs(dirToPlayer.x) > Mathf.Abs(dirToPlayer.y))
+                facingDir = new Vector2(Mathf.Sign(dirToPlayer.x), 0);
+            else
+                facingDir = new Vector2(0, Mathf.Sign(dirToPlayer.y));
+        }
+
 
         foreach (Animator anim in animators)
         {
-            anim.SetBool("isMoving", true);
+            anim.SetFloat("InputX", facingDir.x);
+            anim.SetFloat("InputY", facingDir.y);
         }
+    }
+
+    protected virtual void MoveTowardsPlayer()
+    {
+        Vector2 direction = (player.position - transform.position).normalized;
+        rb.linearVelocity = direction * speed;
+
+        foreach (Animator anim in animators) anim.SetBool("isMoving", true);
     }
 
     protected virtual void StopMovement()
     {
         rb.linearVelocity = Vector2.zero;
+
         foreach (Animator anim in animators)
         {
             anim.SetBool("isMoving", false);

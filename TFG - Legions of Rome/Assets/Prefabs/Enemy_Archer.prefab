@@ -431,7 +431,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangedEnemy
   maxHealth: 100
-  speed: 2
   attackRange: {x: 6, y: 5}
   attackCooldown: 2.5
   animators:
