@@ -409,8 +409,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeEnemy
   maxHealth: 100
+  speed: 2.5
   attackRange: {x: 1.2, y: 1}
   attackCooldown: 1.5
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  steeringRays: 24
+  steeringRayLength: 2
+  stuckCheckInterval: 0.25
+  stuckDistanceThreshold: 0.2
   animators:
   - {fileID: 4469118500520063824}
   - {fileID: 1875785986364432369}

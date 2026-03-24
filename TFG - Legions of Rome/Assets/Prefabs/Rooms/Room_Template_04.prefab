@@ -558,7 +558,7 @@ GameObject:
   - component: {fileID: 2249625924974069165}
   - component: {fileID: 5229140326628456968}
   - component: {fileID: 6631640997754458072}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31985,7 +31985,7 @@ MonoBehaviour:
   - {fileID: 6840984382083661266}
   - {fileID: 8919667430977953021}
   waveData: {fileID: 11400000, guid: c90d4f6d3f0431247865e83d3520a438, type: 2}
-  telegraphWarningPrefab: {fileID: 0}
+  telegraphWarningPrefab: {fileID: 215360486575966733, guid: a81c1b39cb593a746a64d80cdca4067e, type: 3}
 --- !u!61 &8598812605510461334
 BoxCollider2D:
   m_ObjectHideFlags: 0

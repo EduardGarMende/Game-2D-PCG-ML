@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7cde14b0fafa294fabb35bf63a1c360, type: 3}
   m_Name: Reward_Sword_Damage
   m_EditorClassIdentifier: Assembly-CSharp::RoomRewardData
+  type: 5
   rewardName: Sword Damage
   rewardIcon: {fileID: -761887118410055393, guid: b8360bd4b2269554d9b1763843a44913, type: 3}
+  value: 10

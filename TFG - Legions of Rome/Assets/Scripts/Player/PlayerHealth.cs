@@ -7,9 +7,11 @@ public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth { get; private set; }
+    public float armor = 0f;
 
     public bool isInvulnerable = false;
     public bool isShieldActive = false;
+    public float shieldProtection = 0.5f;
 
     public PlayerMovement movement;
     public PlayerVisuals visuals;
@@ -32,10 +34,11 @@ public class PlayerHealth : MonoBehaviour
         if (isShieldActive)
         {
             isShieldActive = false;
-            currentHealth -= 0.25f * damage;
+            damage = (1f - shieldProtection) * damage;
             OnShieldBroken?.Invoke();
-            return;
         }
+
+        damage = Mathf.Max(1f, damage - armor);
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -67,5 +70,28 @@ public class PlayerHealth : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void Heal(float amount)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+
+    public void IncreaseMaxHelath(float amount)
+    {
+        maxHealth += amount;
+        currentHealth += amount;
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+
+    public void AddArmor(float amount)
+    {
+        armor += amount;
+    }
+
+    public void ImproveShield(float amount)
+    {
+        shieldProtection = Mathf.Clamp(shieldProtection + amount, 0, 1);
     }
 }

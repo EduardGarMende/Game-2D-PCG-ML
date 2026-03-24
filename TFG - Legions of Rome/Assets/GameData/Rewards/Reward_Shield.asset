@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7cde14b0fafa294fabb35bf63a1c360, type: 3}
   m_Name: Reward_Shield
   m_EditorClassIdentifier: Assembly-CSharp::RoomRewardData
+  type: 2
   rewardName: Shield
   rewardIcon: {fileID: 1065521576455249907, guid: a79a13345a6e590409e4781f4af4146a, type: 3}
+  value: 0.1

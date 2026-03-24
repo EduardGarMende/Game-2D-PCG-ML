@@ -431,8 +431,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangedEnemy
   maxHealth: 100
+  speed: 2.5
   attackRange: {x: 6, y: 5}
   attackCooldown: 2.5
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  steeringRays: 24
+  steeringRayLength: 2
+  stuckCheckInterval: 0.25
+  stuckDistanceThreshold: 0.2
   animators:
   - {fileID: 5098211522118090716}
   - {fileID: 8259692957803696943}

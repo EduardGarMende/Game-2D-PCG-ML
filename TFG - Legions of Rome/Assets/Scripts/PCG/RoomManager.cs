@@ -75,10 +75,39 @@ public class RoomManager : MonoBehaviour
     {
         Debug.Log("El jugador ha cruzado la puerta. Recompensa elegida: " + chosenReward.rewardName);
 
-        // Aquí, en el futuro, aplicaremos la recompensa al jugador (ej. curarlo, darle daño...)
-        // TODO: ApplyRewardToPlayer(chosenReward);
+        ApplyRewardToPlayer(chosenReward);
 
         // Cargamos la siguiente sala inmediatamente
         LoadNewRoom();
+    }
+
+    private void ApplyRewardToPlayer(RoomRewardData chosenReward)
+    {
+        if (player == null) return;
+
+        PlayerHealth health = player.GetComponent<PlayerHealth>();
+        PlayerCombat combat = player.GetComponent<PlayerCombat>();
+
+        switch (chosenReward.type)
+        {
+            case RoomRewardData.RewardType.Health:
+                if (health != null) health.Heal(chosenReward.value); 
+                break;
+            case RoomRewardData.RewardType.MaxHealth:
+                if (health != null) health.IncreaseMaxHelath(chosenReward.value);
+                break;
+            case RoomRewardData.RewardType.Armor:
+                if (health != null) health.AddArmor(chosenReward.value);
+                break;
+            case RoomRewardData.RewardType.Shield:
+                if (health != null) health.ImproveShield(chosenReward.value);
+                break;
+            case RoomRewardData.RewardType.Sword_Damage:
+                if (combat != null) combat.IncreaseSwordDamage(chosenReward.value);
+                break;
+            case RoomRewardData.RewardType.Bow_Damage:
+                if (combat != null) combat.IncreaseRangeDamage(chosenReward.value);
+                break;
+        }
     }
 }

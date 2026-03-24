@@ -11,6 +11,7 @@ public class PlayerCombat : MonoBehaviour
     public float atacDuration = 0.4f;
     public float attackDelay = 0.2f;
     public float attackDamage = 20f;
+    public float rangeAttackDamage = 35f;
 
     public Transform attackCenter;
     public float attackRadius = 0.6f;
@@ -34,6 +35,7 @@ public class PlayerCombat : MonoBehaviour
     private void Update()
     {
         if (isAttacking) return;
+        if (playerMovement.isDead) return;
 
         if (controls.Gameplay.Attack.triggered)
         {
@@ -96,7 +98,7 @@ public class PlayerCombat : MonoBehaviour
         Projectile spearProjectile = spearInstance.GetComponent<Projectile>();
         if (spearProjectile != null)
         {
-            spearProjectile.Setup(playerMovement.facingDir);
+            spearProjectile.Setup(playerMovement.facingDir, rangeAttackDamage);
         }
 
         yield return new WaitForSeconds(throwDuration - 0.1f);
@@ -119,5 +121,15 @@ public class PlayerCombat : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint, attackRadius);
+    }
+
+    public void IncreaseSwordDamage(float amount)
+    {
+        attackDamage += amount;
+    }
+
+    public void IncreaseRangeDamage(float amount)
+    {
+        rangeAttackDamage += amount;
     }
 }

@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7cde14b0fafa294fabb35bf63a1c360, type: 3}
   m_Name: Reward_Health
   m_EditorClassIdentifier: Assembly-CSharp::RoomRewardData
+  type: 0
   rewardName: Health
   rewardIcon: {fileID: -543142464578366024, guid: 148397f36765fd349a7dbc8098fd15fc, type: 3}
+  value: 65

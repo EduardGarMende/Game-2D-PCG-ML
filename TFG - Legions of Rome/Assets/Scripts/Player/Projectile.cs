@@ -4,12 +4,13 @@ public class Projectile : MonoBehaviour
 {
     public float speed = 10f;
     public float lifetime = 2f;
-    public int damage = 35;
+    public float damage = 35;
     public Rigidbody2D rb;
 
-    public void Setup(Vector2 direction)
+    public void Setup(Vector2 direction, float danio)
     {
         rb.linearVelocity = direction * speed;
+        damage = danio;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
@@ -27,6 +28,11 @@ public class Projectile : MonoBehaviour
             {
                 enemy.TakeDamage(damage);
             }
+            Destroy(gameObject);
+        }
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
+        {
             Destroy(gameObject);
         }
     }

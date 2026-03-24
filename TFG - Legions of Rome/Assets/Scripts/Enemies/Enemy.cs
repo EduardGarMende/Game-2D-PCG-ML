@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
@@ -10,6 +11,18 @@ public abstract class Enemy : MonoBehaviour
     public Vector2 attackRange = new Vector2(1.2f, 0.8f);
     public float attackCooldown = 1f;
     protected float nextAttackTime = 0f;
+
+    public LayerMask obstacleLayer;
+    public int steeringRays = 12;
+    public float steeringRayLength = 1.5f;
+
+    public float stuckCheckInterval = 0.5f;
+    public float stuckDistanceThreshold = 0.1f;
+    private float unstuckTimer = 0f;
+
+    private Vector2 lastCheckedPosition;
+    private float nextStuckCheckTime;
+    private int stuckCount = 0;
 
     public Animator[] animators;
 
@@ -34,13 +47,18 @@ public abstract class Enemy : MonoBehaviour
     {
         if (player == null) return;
 
+        CheckIfStuck();
+
         float distanceX = Mathf.Abs(player.position.x - transform.position.x);
         float distanceY = Mathf.Abs(player.position.y - transform.position.y);
         bool isInAttackRange = (distanceX <= attackRange.x) && (distanceY <= attackRange.y);
 
         if (!isInAttackRange && Time.time >= nextAttackTime)
         {
-            MoveTowardsPlayer();
+            if (Time.time >= unstuckTimer)
+            {
+                MoveTowardsPlayer();
+            }
         }
         else if (isInAttackRange && Time.time >= nextAttackTime)
         {
@@ -57,7 +75,7 @@ public abstract class Enemy : MonoBehaviour
         {
             if (Mathf.Abs(rb.linearVelocity.x) > Mathf.Abs(rb.linearVelocity.y))
             {
-                facingDir = facingDir = new Vector2(Mathf.Sign(rb.linearVelocity.x), 0);
+                facingDir = new Vector2(Mathf.Sign(rb.linearVelocity.x), 0);
             }
             else
             {
@@ -81,12 +99,80 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    private void CheckIfStuck()
+    {
+        if (Time.time < nextStuckCheckTime) return;
+
+        float moved = Vector2.Distance(rb.position, lastCheckedPosition);
+
+        if (moved < stuckDistanceThreshold)
+        {
+            stuckCount++;
+            if (stuckCount >= 2) // Lleva 1 segundo sin moverse
+            {
+                ApplyUnstuckForce();
+                stuckCount = 0;
+            }
+        }
+        else
+        {
+            stuckCount = 0;
+        }
+
+        lastCheckedPosition = rb.position;
+        nextStuckCheckTime = Time.time + stuckCheckInterval;
+    }
+
+    private void ApplyUnstuckForce()
+    {
+        Vector2 toPlayer = (player.position - transform.position).normalized;
+        Vector2 perpendicular = new Vector2(-toPlayer.y, toPlayer.x);
+
+        if (Random.value > 0.5f) perpendicular = -perpendicular;
+
+        rb.linearVelocity = perpendicular * speed * 1.5f;
+
+        // Le damos 0.3 segundos para que se mueva libremente antes de volver a perseguir
+        unstuckTimer = Time.time + 0.3f;
+    }
+
     protected virtual void MoveTowardsPlayer()
     {
-        Vector2 direction = (player.position - transform.position).normalized;
-        rb.linearVelocity = direction * speed;
+        Vector2 desiredDir = (player.position - transform.position).normalized;
+        Vector2 finalDir = GetSteeringDirection(desiredDir);
+        rb.linearVelocity = finalDir * speed;
 
         foreach (Animator anim in animators) anim.SetBool("isMoving", true);
+    }
+
+    private Vector2 GetSteeringDirection(Vector2 desiredDir)
+    {
+        Vector2 bestDir = desiredDir;
+        float bestScore = -1f;
+
+        for (int i = 0; i < steeringRays; i++)
+        {
+            float angle = i * (360f / steeringRays);
+            Vector2 candidate = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+
+            float score = Mathf.Max(0f, Vector2.Dot(candidate, desiredDir));
+
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, candidate, steeringRayLength, obstacleLayer);
+
+            if (hit.collider != null)
+            {
+                float proximity = 1f - (hit.distance / steeringRayLength);
+                score -= proximity * 2f;
+            }
+
+            if (score > bestScore)
+            {
+                bestScore = score;
+                bestDir = candidate;
+            }
+        }
+
+        return bestDir;
     }
 
     protected virtual void StopMovement()

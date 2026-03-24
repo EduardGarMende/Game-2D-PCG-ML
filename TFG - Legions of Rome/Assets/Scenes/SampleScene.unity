@@ -1402,6 +1402,7 @@ MonoBehaviour:
   atacDuration: 0.4
   attackDelay: 0.2
   attackDamage: 20
+  rangeAttackDamage: 35
   attackCenter: {fileID: 1039924245}
   attackRadius: 0.6
   attackOffset: 0.8
@@ -1464,8 +1465,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 100
+  armor: 0
   isInvulnerable: 0
   isShieldActive: 0
+  shieldProtection: 0.5
   movement: {fileID: 1039924246}
   visuals: {fileID: 1039924248}
 --- !u!1 &1076232928
