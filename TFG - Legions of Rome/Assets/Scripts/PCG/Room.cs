@@ -45,6 +45,7 @@ public class Room : MonoBehaviour
     private void StartCombat()
     {
         currentState = RoomState.LookedInCombat;
+        TelemetryManager.Instance.StartRoomRecording();
         StartCoroutine(SpawnWaveRoutine());
     }
 

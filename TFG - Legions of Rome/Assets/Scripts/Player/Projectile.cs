@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
 
     public void Setup(Vector2 direction, float danio)
     {
+        TelemetryManager.Instance.RegisterAttack();
         rb.linearVelocity = direction * speed;
         damage = danio;
 
@@ -26,6 +27,7 @@ public class Projectile : MonoBehaviour
             Enemy enemy = collision.GetComponent<Enemy>();
             if (enemy != null)
             {
+                TelemetryManager.Instance.RegisterHit();
                 enemy.TakeDamage(damage);
             }
             Destroy(gameObject);

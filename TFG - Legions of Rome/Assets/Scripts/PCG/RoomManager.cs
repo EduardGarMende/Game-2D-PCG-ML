@@ -54,6 +54,7 @@ public class RoomManager : MonoBehaviour
     private void HandleRoomCleared(Room clearedRoom)
     {
         Debug.Log("¡Sala completada! Generando puertas de salida...");
+        TelemetryManager.Instance.StopCombatRecording();
 
         List<RoomRewardData> rewardsList = new List<RoomRewardData>(possibleRewards);
 
@@ -74,6 +75,9 @@ public class RoomManager : MonoBehaviour
     private void HandleDoorEntered(RoomRewardData chosenReward)
     {
         Debug.Log("El jugador ha cruzado la puerta. Recompensa elegida: " + chosenReward.rewardName);
+
+        string rewardString = chosenReward.rewardName;
+        TelemetryManager.Instance.SaveToCSV(rewardString);
 
         ApplyRewardToPlayer(chosenReward);
 

@@ -51,6 +51,7 @@ public class PlayerCombat : MonoBehaviour
     IEnumerator Attack()
     {
         isAttacking = true;
+        TelemetryManager.Instance.RegisterAttack();
         playerMovement.isMovementBloked = true;
         visuals.TriggerAttack();
 
@@ -58,6 +59,11 @@ public class PlayerCombat : MonoBehaviour
 
         Vector2 attackPoint = (Vector2)attackCenter.position + (playerMovement.facingDir * attackOffset);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint, attackRadius, enemyLayer);
+
+        if (hitEnemies.Length > 0)
+        {
+            TelemetryManager.Instance.RegisterHit();
+        }
 
         foreach (Collider2D enemy in hitEnemies)
         {
