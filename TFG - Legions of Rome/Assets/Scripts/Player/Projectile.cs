@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
 
     public void Setup(Vector2 direction, float danio)
     {
-        TelemetryManager.Instance.RegisterAttack();
+        TelemetryManager.Instance.RegisterRangedAttack();
         rb.linearVelocity = direction * speed;
         damage = danio;
 

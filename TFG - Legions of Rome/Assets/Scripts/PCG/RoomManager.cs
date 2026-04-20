@@ -74,14 +74,19 @@ public class RoomManager : MonoBehaviour
 
     private void HandleDoorEntered(RoomRewardData chosenReward)
     {
-        Debug.Log("El jugador ha cruzado la puerta. Recompensa elegida: " + chosenReward.rewardName);
-
         string rewardString = chosenReward.rewardName;
         TelemetryManager.Instance.SaveToCSV(rewardString);
 
-        ApplyRewardToPlayer(chosenReward);
+        if (GameModeManager.Instance != null && GameModeManager.Instance.currentMode == GameModeManager.GameMode.DataCollection)
+        {
+            PlayerHealth pHealth = player.GetComponent<PlayerHealth>();
+            if (pHealth != null) pHealth.ResetToDefault();
+        }
+        else
+        {
+            ApplyRewardToPlayer(chosenReward);
+        }
 
-        // Cargamos la siguiente sala inmediatamente
         LoadNewRoom();
     }
 

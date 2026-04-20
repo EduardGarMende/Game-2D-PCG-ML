@@ -53,7 +53,15 @@ public class Room : MonoBehaviour
     {
         if (waveData == null) yield break;
 
-        int enemiesToSpawn = UnityEngine.Random.Range(waveData.minEnemies, waveData.maxEnemies + 1);
+        int enemiesToSpawn = 0;
+        if (GameModeManager.Instance != null && GameModeManager.Instance.currentMode == GameModeManager.GameMode.DataCollection)
+        {
+            enemiesToSpawn = 4;
+        }
+        else
+        {
+            enemiesToSpawn = UnityEngine.Random.Range(waveData.minEnemies, waveData.maxEnemies + 1);
+        }
         enemiesToSpawn = Mathf.Min(enemiesToSpawn, spawnPoints.Length); // Asegura que no se intente spawnear más enemigos que puntos disponibles
 
         activeEnemies = enemiesToSpawn;

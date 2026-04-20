@@ -51,7 +51,7 @@ public class PlayerCombat : MonoBehaviour
     IEnumerator Attack()
     {
         isAttacking = true;
-        TelemetryManager.Instance.RegisterAttack();
+        TelemetryManager.Instance.RegisterMeleeAttack();
         playerMovement.isMovementBloked = true;
         visuals.TriggerAttack();
 

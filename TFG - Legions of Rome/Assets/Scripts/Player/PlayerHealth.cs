@@ -41,7 +41,14 @@ public class PlayerHealth : MonoBehaviour
         damage = Mathf.Max(1f, damage - armor);
 
         currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        if (GameModeManager.Instance != null && GameModeManager.Instance.currentMode == GameModeManager.GameMode.GodMode)
+        {
+            currentHealth = Mathf.Clamp(currentHealth, 1f, maxHealth); // Nunca baja de 1
+        }
+        else
+        {
+            currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+        }
 
         OnDamageTaken?.Invoke(damage);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
@@ -93,5 +100,13 @@ public class PlayerHealth : MonoBehaviour
     public void ImproveShield(float amount)
     {
         shieldProtection = Mathf.Clamp(shieldProtection + amount, 0, 1);
+    }
+
+    public void ResetToDefault()
+    {
+        currentHealth = maxHealth;
+        armor = 0f;
+        shieldProtection = 0.5f;
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 }

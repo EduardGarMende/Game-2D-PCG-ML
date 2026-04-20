@@ -17,7 +17,7 @@ public class RangedEnemy : Enemy
     {
         yield return new WaitForSeconds(attackDelay);
 
-        if (player != null && arrowPrefab != null && firePoint != null)
+        if (player != null && arrowPrefab != null && firePoint != null && !isDead)
         {
             Vector2 exactDirection = (player.position - firePoint.position).normalized;
 

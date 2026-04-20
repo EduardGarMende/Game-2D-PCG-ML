@@ -6,6 +6,7 @@ public abstract class Enemy : MonoBehaviour
 {
     public float maxHealth = 100f;
     protected float currentHealth;
+    protected bool isDead = false;
     public float speed = 2.5f;
 
     public Vector2 attackRange = new Vector2(1.2f, 0.8f);
@@ -163,6 +164,12 @@ public abstract class Enemy : MonoBehaviour
             {
                 float proximity = 1f - (hit.distance / steeringRayLength);
                 score -= proximity * 2f;
+
+                Debug.DrawRay(transform.position, candidate * steeringRayLength, Color.red);
+            }
+            else
+            {
+                Debug.DrawRay(transform.position, candidate * steeringRayLength, Color.green);
             }
 
             if (score > bestScore)
@@ -171,6 +178,8 @@ public abstract class Enemy : MonoBehaviour
                 bestDir = candidate;
             }
         }
+
+        Debug.DrawRay(transform.position, bestDir * steeringRayLength, Color.cyan);
 
         return bestDir;
     }
@@ -198,6 +207,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        TelemetryManager.Instance.RegisterDamageDealt(damage);
         if (currentHealth <= 0)
         {
             Die();
@@ -225,7 +235,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
-        Debug.Log($"{gameObject.name} has died.");
+        if (isDead) return;
+        isDead = true;
 
         GetComponent<Collider2D>().enabled = false;
         rb.linearVelocity = Vector2.zero;
