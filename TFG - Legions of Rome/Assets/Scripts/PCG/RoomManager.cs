@@ -96,6 +96,7 @@ public class RoomManager : MonoBehaviour
 
         PlayerHealth health = player.GetComponent<PlayerHealth>();
         PlayerCombat combat = player.GetComponent<PlayerCombat>();
+        PlayerMovement movement = player.GetComponent<PlayerMovement>();
 
         switch (chosenReward.type)
         {
@@ -116,6 +117,9 @@ public class RoomManager : MonoBehaviour
                 break;
             case RoomRewardData.RewardType.Bow_Damage:
                 if (combat != null) combat.IncreaseRangeDamage(chosenReward.value);
+                break;
+            case RoomRewardData.RewardType.Velocity:
+                if (combat != null) movement.IncreaseSpeed(chosenReward.value);
                 break;
         }
     }

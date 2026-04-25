@@ -60,4 +60,9 @@ public class PlayerMovement : MonoBehaviour
         }
         rb.linearVelocity = moveInput * speed;
     }
+
+    public void IncreaseSpeed(float amount)
+    {
+        speed += amount;
+    }
 }

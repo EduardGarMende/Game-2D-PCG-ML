@@ -10,7 +10,8 @@ public class RoomRewardData : ScriptableObject
         Shield,
         Armor,
         Bow_Damage,
-        Sword_Damage
+        Sword_Damage,
+        Velocity
     }
 
     public RewardType type;
