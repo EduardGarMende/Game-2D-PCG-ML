@@ -25,20 +25,20 @@ public class PlayerMovement : MonoBehaviour
         if (isDead) return;
         moveInput = controls.Gameplay.Move.ReadValue<Vector2>();
 
-        if (moveInput.sqrMagnitude > 0.01f)
-        {
-            if (Mathf.Abs(moveInput.x) > Mathf.Abs(moveInput.y))
-            {
-                facingDir = new Vector2(Mathf.Sign(moveInput.x), 0);
-            }
-            else
-            {
-                facingDir = new Vector2(0, Mathf.Sign(moveInput.y));
-            }
-        }
-
         if (!isMovementBloked)
         {
+            if (moveInput.sqrMagnitude > 0.01f)
+            {
+                if (Mathf.Abs(moveInput.x) > Mathf.Abs(moveInput.y))
+                {
+                    facingDir = new Vector2(Mathf.Sign(moveInput.x), 0);
+                }
+                else
+                {
+                    facingDir = new Vector2(0, Mathf.Sign(moveInput.y));
+                }
+            }
+
             visuals.UpdateVisuals(moveInput);
         }
     }

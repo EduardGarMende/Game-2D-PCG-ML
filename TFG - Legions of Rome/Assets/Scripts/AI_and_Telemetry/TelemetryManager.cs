@@ -145,6 +145,22 @@ public class TelemetryManager : MonoBehaviour
             apm, precision, avgDistance, damageTakenPerMin, damageDealtPerMin, rangedRatio, dashPerMin, shieldPerMin, timeInRiskZone, rewardChosen);
 
         File.AppendAllText(filePath, newDataRow);
+
+        MLClient.PlayerMetricsData metrics = new MLClient.PlayerMetricsData()
+        {
+            APM = apm,
+            Precision = precision,
+            AvgDistance = avgDistance,
+            DamageTakenPerMin = damageTakenPerMin,
+            DamageDealtPerMin = damageDealtPerMin,
+            RangedRatio = rangedRatio,
+            DashPerMin = dashPerMin,
+            ShieldPerMin = shieldPerMin,
+            TimeInRiskZone = timeInRiskZone,
+            RewardChosen = rewardChosen
+        };
+
+        MLClient.Instance.RequestProfilePrediction(metrics);
     }
 
     public void RegisterMeleeAttack()

@@ -2691,6 +2691,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1651585805}
   - component: {fileID: 1651585804}
+  - component: {fileID: 1651585806}
   m_Layer: 0
   m_Name: TelemetryManager
   m_TagString: Untagged
@@ -2727,6 +2728,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1651585806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651585803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac277f86e8015b24e9de7cbbfa64c214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MLClient
+  apiUrl: http://127.0.0.1:8000/predict
 --- !u!1 &1686867789
 GameObject:
   m_ObjectHideFlags: 0

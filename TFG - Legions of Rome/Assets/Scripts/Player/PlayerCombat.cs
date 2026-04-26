@@ -55,9 +55,11 @@ public class PlayerCombat : MonoBehaviour
         playerMovement.isMovementBloked = true;
         visuals.TriggerAttack();
 
+        Vector2 loockedFacingDir = playerMovement.facingDir;
+
         yield return new WaitForSeconds(attackDelay);
 
-        Vector2 attackPoint = (Vector2)attackCenter.position + (playerMovement.facingDir * attackOffset);
+        Vector2 attackPoint = (Vector2)attackCenter.position + (loockedFacingDir * attackOffset);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint, attackRadius, enemyLayer);
 
         if (hitEnemies.Length > 0)
@@ -85,6 +87,8 @@ public class PlayerCombat : MonoBehaviour
         isAttacking = true;
         playerMovement.isMovementBloked = true;
 
+        Vector2 loockedFacingDir = playerMovement.facingDir;
+
         nextRangedTime = Time.time + rangedCooldown;
 
         OnRangedUsed?.Invoke(rangedCooldown);
@@ -98,13 +102,13 @@ public class PlayerCombat : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        Vector2 spawnPosition = (Vector2)attackCenter.position + (playerMovement.facingDir * attackOffset);
+        Vector2 spawnPosition = (Vector2)attackCenter.position + (loockedFacingDir * attackOffset);
         GameObject spearInstance = Instantiate(spearPrefab, spawnPosition, Quaternion.identity);
 
         Projectile spearProjectile = spearInstance.GetComponent<Projectile>();
         if (spearProjectile != null)
         {
-            spearProjectile.Setup(playerMovement.facingDir, rangeAttackDamage);
+            spearProjectile.Setup(loockedFacingDir, rangeAttackDamage);
         }
 
         yield return new WaitForSeconds(throwDuration - 0.1f);
