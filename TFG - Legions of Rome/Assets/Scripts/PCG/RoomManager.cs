@@ -11,6 +11,8 @@ public class RoomManager : MonoBehaviour
 
     private Room currentRoom;
 
+    public int roomCounter = 1;
+
     private void OnEnable()
     {
         Room.OnRoomCleared += HandleRoomCleared;
@@ -74,20 +76,24 @@ public class RoomManager : MonoBehaviour
 
     private void HandleDoorEntered(RoomRewardData chosenReward)
     {
-        string rewardString = chosenReward.rewardName;
-        TelemetryManager.Instance.SaveToCSV(rewardString);
-
-        if (GameModeManager.Instance != null && GameModeManager.Instance.currentMode == GameModeManager.GameMode.DataCollection)
+        StartCoroutine(TransitionManager.Instance.TransitionToNewRoomRoutine(roomCounter, () =>
         {
-            PlayerHealth pHealth = player.GetComponent<PlayerHealth>();
-            if (pHealth != null) pHealth.ResetToDefault();
-        }
-        else
-        {
-            ApplyRewardToPlayer(chosenReward);
-        }
+            string rewardString = chosenReward.rewardName;
+            TelemetryManager.Instance.SaveToCSV(rewardString);
 
-        LoadNewRoom();
+            if (GameModeManager.Instance != null && GameModeManager.Instance.currentMode == GameModeManager.GameMode.DataCollection)
+            {
+                PlayerHealth pHealth = player.GetComponent<PlayerHealth>();
+                if (pHealth != null) pHealth.ResetToDefault();
+            }
+            else
+            {
+                ApplyRewardToPlayer(chosenReward);
+            }
+
+            roomCounter++;
+            LoadNewRoom();
+        }));
     }
 
     private void ApplyRewardToPlayer(RoomRewardData chosenReward)
