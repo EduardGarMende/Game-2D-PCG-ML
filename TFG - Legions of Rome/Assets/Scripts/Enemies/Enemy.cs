@@ -33,7 +33,17 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
-        currentHealth = maxHealth;
+        if (DDAManager.Instance != null && (GameModeManager.Instance == null || GameModeManager.Instance.currentMode != GameModeManager.GameMode.DataCollection))
+        {
+            maxHealth *= DDAManager.Instance.healthMultiplier;
+            currentHealth = maxHealth;
+
+            speed *= DDAManager.Instance.speedMultiplier;
+        }
+        else
+        {
+            currentHealth = maxHealth;
+        }
         rb = GetComponent<Rigidbody2D>();
 
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -97,6 +107,26 @@ public abstract class Enemy : MonoBehaviour
         {
             anim.SetFloat("InputX", facingDir.x);
             anim.SetFloat("InputY", facingDir.y);
+        }
+    }
+
+    protected float GetAnimSpeedMultiplier()
+    {
+        if (DDAManager.Instance != null && (GameModeManager.Instance == null || GameModeManager.Instance.currentMode != GameModeManager.GameMode.DataCollection))
+        {
+            return DDAManager.Instance.animSpeedMultiplier;
+        }
+        return 1f;
+    }
+
+    protected void ResetAnimSpeed()
+    {
+        foreach (Animator anim in animators)
+        {
+            if (anim != null)
+            {
+                anim.speed = 1f;
+            }
         }
     }
 
@@ -196,8 +226,13 @@ public abstract class Enemy : MonoBehaviour
 
     protected void TriggerAttackAnimation()
     {
+        float mult = GetAnimSpeedMultiplier();
         foreach (Animator anim in animators)
         {
+            if (anim != null)
+            {
+                anim.speed = mult;
+            }
             anim.SetTrigger("Attack");
         }
     }

@@ -4,7 +4,7 @@ public class EnemyProjectile : MonoBehaviour
 {
     public float speed = 8f;
     public float lifetime = 1.75f;
-    public int damage = 15;
+    public float damage = 15f;
     public LayerMask playerLayer;
 
     public void Setup(Vector2 direction)
@@ -25,7 +25,7 @@ public class EnemyProjectile : MonoBehaviour
             PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
-                playerHealth.TakeDamage(damage);
+                playerHealth.TakeDamage(damage * DDAManager.Instance.damageMultiplier);
             }
             Destroy(gameObject);
         }

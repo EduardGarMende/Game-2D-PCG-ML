@@ -15,7 +15,9 @@ public class RangedEnemy : Enemy
 
     private IEnumerator ShootCorrutine()
     {
-        yield return new WaitForSeconds(attackDelay);
+        float mult = GetAnimSpeedMultiplier();
+
+        yield return new WaitForSeconds(attackDelay / mult);
 
         if (player != null && arrowPrefab != null && firePoint != null && !isDead)
         {
@@ -29,5 +31,8 @@ public class RangedEnemy : Enemy
                 projScript.Setup(exactDirection);
             }
         }
+
+        yield return new WaitForSeconds(attackDelay / mult);
+        ResetAnimSpeed();
     }
 }

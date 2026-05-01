@@ -17,7 +17,9 @@ public class MeleeEnemy : Enemy
 
     private IEnumerator HitDelayCorrutine()
     {
-        yield return new WaitForSeconds(hitDelay);
+        float mult = GetAnimSpeedMultiplier();
+
+        yield return new WaitForSeconds(hitDelay / mult);
 
         Vector2 attackPosition = (Vector2)transform.position + (facingDir * attackOffset);
         Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPosition, attackRadius, playerLayer);
@@ -26,9 +28,12 @@ public class MeleeEnemy : Enemy
             PlayerHealth playerHealth = hit.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
-                playerHealth.TakeDamage(damage);
+                playerHealth.TakeDamage(damage * DDAManager.Instance.damageMultiplier);
             }
         }
+
+        yield return new WaitForSeconds(hitDelay / mult);
+        ResetAnimSpeed();
     }
 
     void OnDrawGizmosSelected()

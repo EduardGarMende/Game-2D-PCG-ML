@@ -70,13 +70,19 @@ public class PlayerHealth : MonoBehaviour
         
         GetComponent<Collider2D>().enabled = false;
 
-        StartCoroutine(GameOverRoutine());
-    }
+        if (TelemetryManager.Instance != null)
+        {
+            TelemetryManager.Instance.StopCombatRecording();
+        }
 
-    private IEnumerator GameOverRoutine()
-    {
-        yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (GameOverController.Instance != null)
+        {
+            GameOverController.Instance.StartGameOverSequence(2f);
+        }
+        else
+        {
+            Debug.LogError("¡No encuentro el GameOverController en la escena!");
+        }
     }
 
     public void Heal(float amount)

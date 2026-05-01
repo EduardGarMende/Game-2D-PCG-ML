@@ -71,7 +71,7 @@ public class MLClient : MonoBehaviour
                 string responseText = request.downloadHandler.text;
                 PredictionResponse response = JsonUtility.FromJson<PredictionResponse>(responseText);
 
-                Debug.Log($"[ML Client] 🎯 Predicción del SVM recibida: Perfil [{response.predicted_profile}]");
+                Debug.Log($"[ML Client] Predicción del SVM recibida: Perfil [{response.predicted_profile}]");
 
                 OnProfileReceived?.Invoke(response.predicted_profile);
             }

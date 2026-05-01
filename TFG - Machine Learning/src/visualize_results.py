@@ -33,7 +33,7 @@ def main():
     preprocessor = ColumnTransformer(
         transformers=[
             ('num', StandardScaler(), numeric_features),
-            ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features)
+            ('cat', OneHotEncoder(), categorical_features)
         ])
 
     rf_model = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')

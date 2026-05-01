@@ -60,7 +60,14 @@ public class Room : MonoBehaviour
         }
         else
         {
-            enemiesToSpawn = UnityEngine.Random.Range(waveData.minEnemies, waveData.maxEnemies + 1);
+            if (DDAManager.Instance != null)
+            {
+                enemiesToSpawn = UnityEngine.Random.Range(DDAManager.Instance.minEnemies, DDAManager.Instance.maxEnemies + 1);
+            }
+            else
+            {
+                enemiesToSpawn = UnityEngine.Random.Range(3, 5);
+            }
         }
         enemiesToSpawn = Mathf.Min(enemiesToSpawn, spawnPoints.Length); // Asegura que no se intente spawnear más enemigos que puntos disponibles
 
