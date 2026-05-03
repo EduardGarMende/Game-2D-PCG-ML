@@ -76,11 +76,11 @@ public class RoomManager : MonoBehaviour
 
     private void HandleDoorEntered(RoomRewardData chosenReward)
     {
+        string rewardString = chosenReward.rewardName;
+        TelemetryManager.Instance.SaveToCSV(rewardString);
+
         StartCoroutine(TransitionManager.Instance.TransitionToNewRoomRoutine(roomCounter, () =>
         {
-            string rewardString = chosenReward.rewardName;
-            TelemetryManager.Instance.SaveToCSV(rewardString);
-
             if (GameModeManager.Instance != null && GameModeManager.Instance.currentMode == GameModeManager.GameMode.DataCollection)
             {
                 PlayerHealth pHealth = player.GetComponent<PlayerHealth>();

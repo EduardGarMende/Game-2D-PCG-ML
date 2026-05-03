@@ -26,7 +26,7 @@ public class EnvironmentSpawner : MonoBehaviour
         {
             float randomVal = Random.value;
 
-            if (randomVal <= trapProb)
+            if (trapProb > 0f && randomVal <= trapProb)
             {
                 if (trapPrefab != null)
                 {
@@ -34,7 +34,7 @@ public class EnvironmentSpawner : MonoBehaviour
                     trapsSpawned++;
                 }
             }
-            else if (randomVal <= (trapProb + obsProb))
+            else if (obsProb > 0f && randomVal <= (trapProb + obsProb))
             {
                 if (obstaclePrefab != null)
                 {

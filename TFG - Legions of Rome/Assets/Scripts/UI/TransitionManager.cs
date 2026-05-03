@@ -57,8 +57,6 @@ public class TransitionManager : MonoBehaviour
 
         yield return StartCoroutine(Fade(1));
 
-        changeRoomLogic?.Invoke();
-
         float minWaitTime = 1.5f;
         float timeout = 5.0f;
         float timer = 0f;
@@ -72,6 +70,8 @@ public class TransitionManager : MonoBehaviour
         ddaText.text = $"Perfil detectat: <color=#FFD700>{lastProfileDetected}</color>";
 
         yield return new WaitForSeconds(2.5f);
+
+        changeRoomLogic?.Invoke();
 
         yield return StartCoroutine(Fade(0));
 
