@@ -4077,6 +4077,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Dungeon tileset_179
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 80
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34fa7982b755ebc4abd55ca69508b3b7
+      internalID: 1994164743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon tileset_180
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 80
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 270198b8bf2db1b4da61a9b73e117dff
+      internalID: 1808470771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -4182,7 +4226,9 @@ TextureImporter:
       Dungeon tileset_176: 729037805
       Dungeon tileset_177: -338328994
       Dungeon tileset_178: -1475512396
+      Dungeon tileset_179: 1994164743
       Dungeon tileset_18: 1469376814
+      Dungeon tileset_180: 1808470771
       Dungeon tileset_19: -215319715
       Dungeon tileset_2: 406551859847576100
       Dungeon tileset_20: 2102860012

@@ -14,6 +14,7 @@ public abstract class Enemy : MonoBehaviour
     protected float nextAttackTime = 0f;
 
     public LayerMask obstacleLayer;
+    public LayerMask trapLayer;
     public int steeringRays = 12;
     public float steeringRayLength = 1.5f;
 
@@ -181,6 +182,8 @@ public abstract class Enemy : MonoBehaviour
         Vector2 bestDir = desiredDir;
         float bestScore = -1f;
 
+        LayerMask combinedMask = obstacleLayer | trapLayer;
+
         for (int i = 0; i < steeringRays; i++)
         {
             float angle = i * (360f / steeringRays);
@@ -188,7 +191,7 @@ public abstract class Enemy : MonoBehaviour
 
             float score = Mathf.Max(0f, Vector2.Dot(candidate, desiredDir));
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, candidate, steeringRayLength, obstacleLayer);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, candidate, steeringRayLength, combinedMask);
 
             if (hit.collider != null)
             {

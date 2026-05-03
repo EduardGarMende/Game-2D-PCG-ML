@@ -437,6 +437,9 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 128
+  trapLayer:
+    serializedVersion: 2
+    m_Bits: 256
   steeringRays: 24
   steeringRayLength: 2
   stuckCheckInterval: 0.25

@@ -12,6 +12,11 @@ public class DDAManager : MonoBehaviour
     public float damageMultiplier = 1.0f;
     public float animSpeedMultiplier = 1.0f;
 
+    public float trapProbability = 0.1f;
+    public float obstacleProbability = 0.2f;
+
+    public float rangedEnemyProbability = 0.3f;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -39,6 +44,9 @@ public class DDAManager : MonoBehaviour
         speedMultiplier = 1.0f;
         damageMultiplier = 1.0f;
         animSpeedMultiplier = 1.0f;
+        trapProbability = 0.1f;
+        obstacleProbability = 0.2f;
+        rangedEnemyProbability = 0.3f;
 
         switch (profile)
         {
@@ -47,11 +55,17 @@ public class DDAManager : MonoBehaviour
                 maxEnemies = 6;
                 damageMultiplier = 1.5f;
                 healthMultiplier = 1.2f;
+                trapProbability = 0.4f;
+                obstacleProbability = 0.1f;
+                rangedEnemyProbability = 0.7f;
                 break;
             case "Tactic":
                 minEnemies = 5;
                 maxEnemies = 6;
                 speedMultiplier = 1.4f;
+                trapProbability = 0.1f;
+                obstacleProbability = 0.5f;
+                rangedEnemyProbability = 0.2f;
                 break;
             case "Unskilful":
                 minEnemies = 2;
@@ -60,6 +74,9 @@ public class DDAManager : MonoBehaviour
                 damageMultiplier = 0.5f;
                 speedMultiplier = 0.8f;
                 animSpeedMultiplier = 0.8f;
+                trapProbability = 0f;
+                obstacleProbability = 0f;
+                rangedEnemyProbability = 0f;
                 break;
             case "Expert":
                 minEnemies = 6;
@@ -68,12 +85,18 @@ public class DDAManager : MonoBehaviour
                 damageMultiplier = 1.2f;
                 speedMultiplier = 1.2f;
                 animSpeedMultiplier = 1.2f;
+                trapProbability = 0.3f;
+                obstacleProbability = 0.3f;
+                rangedEnemyProbability = 0.5f;
                 break;
             case "Speedrunner":
                 minEnemies = 4;
                 maxEnemies = 4;
                 healthMultiplier = 1.8f;
                 damageMultiplier = 0.8f;
+                trapProbability = 0.1f;
+                obstacleProbability = 0.6f;
+                rangedEnemyProbability = 0.3f;
                 break;
             default:
                 Debug.LogWarning($"[DDA] Perfil no reconocido ({profile}). Usando dificultad normal.");
@@ -90,6 +113,9 @@ public class DDAManager : MonoBehaviour
         damageMultiplier = 1f;
         speedMultiplier = 1f;
         animSpeedMultiplier = 1f;
+        trapProbability = 0.1f;
+        obstacleProbability = 0.2f;
+        rangedEnemyProbability = 0.3f;
 
         Debug.Log("[DDA] El jugador ha muerto/reiniciado. Dificultad devuelta a los valores base.");
     }

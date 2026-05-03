@@ -23,6 +23,9 @@ public class Room : MonoBehaviour
     public EnemyWaveData waveData;
     public GameObject telegraphWarningPrefab;
 
+    public GameObject meleeEnemyPrefab;
+    public GameObject rangedEnemyPrefab;
+
     public static event Action<Room> OnRoomCleared;
 
     private void Start()
@@ -31,6 +34,7 @@ public class Room : MonoBehaviour
         {
             door.CloseDoor();
         }
+        GetComponentInChildren<EnvironmentSpawner>().SpawnEnvironment();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -90,8 +94,33 @@ public class Room : MonoBehaviour
 
             yield return new WaitForSeconds(1f);
 
-            GameObject enemyPrefab = waveData.allowedEnemies[UnityEngine.Random.Range(0, waveData.allowedEnemies.Length)];
-            Instantiate(enemyPrefab, randomNode.position, Quaternion.identity);
+            GameObject enemyPrefabToSpawn = null;
+            float currentRangedProb = 0.3f;
+
+            if (DDAManager.Instance != null && (GameModeManager.Instance == null || GameModeManager.Instance.currentMode != GameModeManager.GameMode.DataCollection))
+            {
+                currentRangedProb = DDAManager.Instance.rangedEnemyProbability;
+            }
+            else if (GameModeManager.Instance != null && GameModeManager.Instance.currentMode == GameModeManager.GameMode.DataCollection)
+            {
+                currentRangedProb = 0.5f;
+            }
+
+            // Tiramos los dados: ¿Sale Ranged o sale Melee?
+            if (UnityEngine.Random.value <= currentRangedProb && rangedEnemyPrefab != null)
+            {
+                enemyPrefabToSpawn = rangedEnemyPrefab;
+            }
+            else if (meleeEnemyPrefab != null)
+            {
+                enemyPrefabToSpawn = meleeEnemyPrefab;
+            }
+            else
+            {
+                enemyPrefabToSpawn = waveData.allowedEnemies[0];
+            }
+
+            Instantiate(enemyPrefabToSpawn, randomNode.position, Quaternion.identity);
         }
     }
 
