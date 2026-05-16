@@ -58,21 +58,16 @@ public class Room : MonoBehaviour
         if (waveData == null) yield break;
 
         int enemiesToSpawn = 0;
-        if (GameModeManager.Instance != null && GameModeManager.Instance.currentMode == GameModeManager.GameMode.DataCollection)
+
+        if (DDAManager.Instance != null)
         {
-            enemiesToSpawn = 4;
+            enemiesToSpawn = UnityEngine.Random.Range(DDAManager.Instance.minEnemies, DDAManager.Instance.maxEnemies + 1);
         }
         else
         {
-            if (DDAManager.Instance != null)
-            {
-                enemiesToSpawn = UnityEngine.Random.Range(DDAManager.Instance.minEnemies, DDAManager.Instance.maxEnemies + 1);
-            }
-            else
-            {
-                enemiesToSpawn = UnityEngine.Random.Range(3, 5);
-            }
+            enemiesToSpawn = UnityEngine.Random.Range(3, 5);
         }
+
         enemiesToSpawn = Mathf.Min(enemiesToSpawn, spawnPoints.Length); // Asegura que no se intente spawnear más enemigos que puntos disponibles
 
         activeEnemies = enemiesToSpawn;
@@ -97,16 +92,11 @@ public class Room : MonoBehaviour
             GameObject enemyPrefabToSpawn = null;
             float currentRangedProb = 0.3f;
 
-            if (DDAManager.Instance != null && (GameModeManager.Instance == null || GameModeManager.Instance.currentMode != GameModeManager.GameMode.DataCollection))
+            if (DDAManager.Instance != null && GameModeManager.Instance == null)
             {
                 currentRangedProb = DDAManager.Instance.rangedEnemyProbability;
             }
-            else if (GameModeManager.Instance != null && GameModeManager.Instance.currentMode == GameModeManager.GameMode.DataCollection)
-            {
-                currentRangedProb = 0.5f;
-            }
 
-            // Tiramos los dados: ¿Sale Ranged o sale Melee?
             if (UnityEngine.Random.value <= currentRangedProb && rangedEnemyPrefab != null)
             {
                 enemyPrefabToSpawn = rangedEnemyPrefab;

@@ -7,11 +7,14 @@ public class GameModeManager : MonoBehaviour
     public enum GameMode
     {
         Normal,
-        DataCollection,
+        NoDDA,
         GodMode
     }
 
     public GameMode currentMode = GameMode.Normal;
+
+    public bool isDDAActive = true;
+    public string currentSessionID = "NONE";
 
     private void Awake()
     {
@@ -22,5 +25,10 @@ public class GameModeManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void StartNewSession()
+    {
+        currentSessionID = System.DateTime.Now.ToString("yyyyMMddHHmmss");
     }
 }

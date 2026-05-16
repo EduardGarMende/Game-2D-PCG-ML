@@ -12,6 +12,7 @@ public class RoomManager : MonoBehaviour
     private Room currentRoom;
 
     public int roomCounter = 1;
+    public int maxRoomsBeforeVictory = 15;
 
     private void OnEnable()
     {
@@ -47,10 +48,11 @@ public class RoomManager : MonoBehaviour
         {
             player.transform.position = currentRoom.playerSpawnPoint.position;
 
-            // IMPORTANTE: Reseteamos la velocidad del jugador para que no entre derrapando
             Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
             if (rb != null) rb.linearVelocity = Vector2.zero;
         }
+
+        ValidationTelemetryManager.Instance.StartValidationTimer(roomCounter);
     }
 
     private void HandleRoomCleared(Room clearedRoom)
@@ -76,24 +78,29 @@ public class RoomManager : MonoBehaviour
 
     private void HandleDoorEntered(RoomRewardData chosenReward)
     {
+        ValidationTelemetryManager.Instance.SaveValidationData(player.GetComponent<PlayerHealth>(), true);
+
         string rewardString = chosenReward.rewardName;
         TelemetryManager.Instance.SaveToCSV(rewardString);
 
-        StartCoroutine(TransitionManager.Instance.TransitionToNewRoomRoutine(roomCounter, () =>
+        if (roomCounter >= maxRoomsBeforeVictory)
         {
-            if (GameModeManager.Instance != null && GameModeManager.Instance.currentMode == GameModeManager.GameMode.DataCollection)
+            Debug.Log("¡Límite de salas alcanzado! Activando pantalla de victoria.");
+            if (GameOverController.Instance != null)
             {
-                PlayerHealth pHealth = player.GetComponent<PlayerHealth>();
-                if (pHealth != null) pHealth.ResetToDefault();
+                GameOverController.Instance.ShowVictory();
             }
-            else
+        }
+        else
+        {
+            StartCoroutine(TransitionManager.Instance.TransitionToNewRoomRoutine(roomCounter, () =>
             {
                 ApplyRewardToPlayer(chosenReward);
-            }
 
-            roomCounter++;
-            LoadNewRoom();
-        }));
+                roomCounter++;
+                LoadNewRoom();
+            }));
+        }
     }
 
     private void ApplyRewardToPlayer(RoomRewardData chosenReward)

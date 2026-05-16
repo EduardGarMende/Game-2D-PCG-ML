@@ -6,6 +6,7 @@ public class GameOverController : MonoBehaviour
     public static GameOverController Instance { get; private set; }
 
     public GameObject gameOverPanel;
+    public GameObject victoryPanel;
 
     public string mainMenuSceneName = "MenuScene";
 
@@ -40,11 +41,22 @@ public class GameOverController : MonoBehaviour
         Time.timeScale = 0f; // Pause the game
 
         DDAManager.Instance.ResetToDefault(); // Reset DDA modifiers to default
+        ValidationTelemetryManager.Instance.ResetTelemetryState();
+    }
+
+    public void ShowVictory()
+    {
+        if (victoryPanel != null) victoryPanel.SetActive(true);
+        Time.timeScale = 0f;
+
+        if (DDAManager.Instance != null) DDAManager.Instance.ResetToDefault();
+        ValidationTelemetryManager.Instance.ResetTelemetryState();
     }
 
     public void RestartGame()
     {
         Time.timeScale = 1f; // Resume the game
+        GameModeManager.Instance.StartNewSession(); // Start a new game session
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload current scene
     }
 

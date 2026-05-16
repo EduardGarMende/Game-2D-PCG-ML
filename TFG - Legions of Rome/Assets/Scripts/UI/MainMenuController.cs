@@ -7,22 +7,24 @@ public class MainMenuController : MonoBehaviour
 
     public void StartNormalMode()
     {
-        StartGame(GameModeManager.GameMode.Normal);
+        StartGame(GameModeManager.GameMode.Normal, true);
     }
 
-    public void StartDataCollectionMode()
+    public void StartNoDDAMode()
     {
-        StartGame(GameModeManager.GameMode.DataCollection);
+        StartGame(GameModeManager.GameMode.NoDDA, false);
     }
 
     public void StartGodMode()
     {
-        StartGame(GameModeManager.GameMode.GodMode);
+        StartGame(GameModeManager.GameMode.GodMode, true);
     }
 
-    private void StartGame(GameModeManager.GameMode mode)
+    private void StartGame(GameModeManager.GameMode mode, bool isDDAActive)
     {
         GameModeManager.Instance.currentMode = mode;
+        GameModeManager.Instance.isDDAActive = isDDAActive;
+        GameModeManager.Instance.StartNewSession();
         SceneManager.LoadScene(gameSceneName);
     }
 }

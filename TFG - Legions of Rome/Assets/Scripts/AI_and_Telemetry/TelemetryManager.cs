@@ -43,14 +43,7 @@ public class TelemetryManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        if (GameModeManager.Instance != null && GameModeManager.Instance.currentMode == GameModeManager.GameMode.DataCollection)
-        {
-            filePath = Application.dataPath + "/telemetria_entrenamiento.csv";
-        }
-        else
-        {
-            filePath = Application.dataPath + "/telemetria_pruebas_normales.csv";
-        }
+        filePath = Application.dataPath + "/telemetria_pruebas_normales.csv";
 
         CheckAndCreateCSVHeader();
     }

@@ -12,12 +12,8 @@ public class EnvironmentSpawner : MonoBehaviour
         float trapProb = 0f;
         float obsProb = 0f;
 
-        if (DDAManager.Instance != null &&
-           (GameModeManager.Instance == null || GameModeManager.Instance.currentMode != GameModeManager.GameMode.DataCollection))
-        {
-            trapProb = DDAManager.Instance.trapProbability;
-            obsProb = DDAManager.Instance.obstacleProbability;
-        }
+        trapProb = DDAManager.Instance.trapProbability;
+        obsProb = DDAManager.Instance.obstacleProbability;
 
         int trapsSpawned = 0;
         int obstaclesSpawned = 0;

@@ -63,6 +63,8 @@ public class PlayerHealth : MonoBehaviour
     {
         if (movement.isDead) return;
 
+        ValidationTelemetryManager.Instance.SaveValidationData(this, false);
+
         movement.isDead = true;
         visuals.TriggerDeath();
 

@@ -40,6 +40,22 @@ public class DDAManager : MonoBehaviour
 
     public void ApplyDDAModifiers(string profile)
     {
+        if (GameModeManager.Instance != null && !GameModeManager.Instance.isDDAActive)
+        {
+            minEnemies = 3;
+            maxEnemies = 5;
+            healthMultiplier = 1.0f;
+            damageMultiplier = 1.0f;
+            speedMultiplier = 1.0f;
+            animSpeedMultiplier = 1.0f;
+            trapProbability = 0.1f;
+            obstacleProbability = 0.2f;
+            rangedEnemyProbability = 0.5f;
+
+            Debug.Log($"[DDA BYPASS] Modo estático activo. Perfil [{profile}] ignorado en físicas. Valores neutros aplicados.");
+            return;
+        }
+
         healthMultiplier = 1.0f;
         speedMultiplier = 1.0f;
         damageMultiplier = 1.0f;

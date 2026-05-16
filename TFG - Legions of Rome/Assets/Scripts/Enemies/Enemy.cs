@@ -34,17 +34,11 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
-        if (DDAManager.Instance != null && (GameModeManager.Instance == null || GameModeManager.Instance.currentMode != GameModeManager.GameMode.DataCollection))
-        {
-            maxHealth *= DDAManager.Instance.healthMultiplier;
-            currentHealth = maxHealth;
+        maxHealth *= DDAManager.Instance.healthMultiplier;
+        currentHealth = maxHealth;
 
-            speed *= DDAManager.Instance.speedMultiplier;
-        }
-        else
-        {
-            currentHealth = maxHealth;
-        }
+        speed *= DDAManager.Instance.speedMultiplier;
+        
         rb = GetComponent<Rigidbody2D>();
 
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -113,11 +107,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected float GetAnimSpeedMultiplier()
     {
-        if (DDAManager.Instance != null && (GameModeManager.Instance == null || GameModeManager.Instance.currentMode != GameModeManager.GameMode.DataCollection))
-        {
-            return DDAManager.Instance.animSpeedMultiplier;
-        }
-        return 1f;
+        return DDAManager.Instance.animSpeedMultiplier;
     }
 
     protected void ResetAnimSpeed()
