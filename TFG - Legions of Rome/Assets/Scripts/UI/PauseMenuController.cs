@@ -11,6 +11,8 @@ public class PauseMenuController : MonoBehaviour
 
     private GameControls controls;
 
+    public GameObject pauseFirstButton;
+
     private void Awake() => controls = new GameControls();
 
     private void OnEnable() => controls.Enable();
@@ -50,6 +52,11 @@ public class PauseMenuController : MonoBehaviour
         pauseMenuPanel.SetActive(true);
         Time.timeScale = 0f;
         isGamePaused = true;
+        if (pauseFirstButton != null)
+        {
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(pauseFirstButton);
+        }
     }
 
     public void LoadMainMenu()

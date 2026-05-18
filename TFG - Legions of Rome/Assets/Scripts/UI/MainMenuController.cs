@@ -1,9 +1,21 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class MainMenuController : MonoBehaviour
 {
     public string gameSceneName = "MainGameScene";
+
+    public GameObject firstButton;
+
+    private void Start()
+    {
+        if (firstButton != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(firstButton);
+        }
+    }
 
     public void StartNormalMode()
     {
