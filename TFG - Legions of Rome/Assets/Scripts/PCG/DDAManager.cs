@@ -81,7 +81,7 @@ public class DDAManager : MonoBehaviour
                 speedMultiplier = 1.4f;
                 trapProbability = 0.1f;
                 obstacleProbability = 0.5f;
-                rangedEnemyProbability = 0.2f;
+                rangedEnemyProbability = 0.1f;
                 break;
             case "Unskilful":
                 minEnemies = 2;

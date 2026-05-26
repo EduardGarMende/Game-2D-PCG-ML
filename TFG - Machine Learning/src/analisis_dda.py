@@ -68,7 +68,7 @@ def main():
         hue='Modo', 
         marker='o',
         linewidth=2,
-        palette=['#e74c3c', '#2ecc71'] # Rojo para Juego Base, Verde para DDA
+        palette=['#e74c3c', '#2ecc71'] # Rojo para Juego Base, Verde para DDA 
     )
     plt.title("Corba de Supervivència: Salut Mitjana per Sala", fontsize=14, fontweight='bold')
     plt.xlabel("Índex de la Sala", fontsize=12)
@@ -87,7 +87,7 @@ def main():
         data=df_summary, 
         x='Modo', 
         y='Win Rate (%)', 
-        palette=['#e74c3c', '#2ecc71']
+        palette=['#2ecc71', '#e74c3c']
     )
     plt.title("Taxa de Victòria per Mode de Joc", fontsize=14, fontweight='bold')
     plt.xlabel("Mode", fontsize=12)
