@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -10,10 +11,30 @@ public class MainMenuController : MonoBehaviour
 
     private void Start()
     {
-        if (firstButton != null)
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    private void Update()
+    {
+        if (Mouse.current != null && Mouse.current.delta.ReadValue().sqrMagnitude > 0.5)
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(firstButton);
+            if (EventSystem.current.currentSelectedGameObject != null)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+        }
+
+        if (EventSystem.current.currentSelectedGameObject == null)
+        {
+            bool keyboardUsed = Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame;
+            bool gamepadUsed = Gamepad.current != null && (Gamepad.current.leftStick.ReadValue().sqrMagnitude > 0.1f ||
+                Gamepad.current.dpad.ReadValue().sqrMagnitude > 0.1f ||
+                Gamepad.current.buttonSouth.wasPressedThisFrame);
+
+            if (keyboardUsed || gamepadUsed) 
+            {
+                EventSystem.current.SetSelectedGameObject(firstButton);
+            }
         }
     }
 

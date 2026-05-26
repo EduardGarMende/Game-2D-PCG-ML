@@ -28,8 +28,10 @@ public class ValidationTelemetryManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        filePath = Application.dataPath + "/validation_results.csv";
+        filePath = Path.Combine(Application.persistentDataPath, "validation_results.csv");
         CheckAndCreateCSVHeader();
+
+        Debug.Log($"El archivo CSV está en:\n{filePath}");
     }
 
     private void OnEnable()

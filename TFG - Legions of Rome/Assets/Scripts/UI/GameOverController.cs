@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GameOverController : MonoBehaviour
 {
@@ -29,6 +30,35 @@ public class GameOverController : MonoBehaviour
         if (victoryPanel != null) victoryPanel.SetActive(false);
     }
 
+    private void Update()
+    {
+        if ((gameOverPanel == null || !gameOverPanel.activeSelf) && (victoryPanel == null || !victoryPanel.activeSelf))
+            return;
+
+        if (Mouse.current != null && Mouse.current.delta.ReadValue().sqrMagnitude > 0.5)
+        {
+            if (EventSystem.current.currentSelectedGameObject != null)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+        }
+
+        if (EventSystem.current.currentSelectedGameObject == null)
+        {
+            bool keyboardUsed = Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame;
+            bool gamepadUsed = Gamepad.current != null && (Gamepad.current.leftStick.ReadValue().sqrMagnitude > 0.1f ||
+                Gamepad.current.dpad.ReadValue().sqrMagnitude > 0.1f ||
+                Gamepad.current.buttonSouth.wasPressedThisFrame);
+            if (keyboardUsed || gamepadUsed) 
+            {
+                if (gameOverPanel != null && gameOverPanel.activeSelf && gameOverFirstButton != null)
+                    EventSystem.current.SetSelectedGameObject(gameOverFirstButton);
+                else if (victoryPanel != null && victoryPanel.activeSelf && victoryFirstButton != null)
+                    EventSystem.current.SetSelectedGameObject(victoryFirstButton);
+            }
+        }
+    }
+
     public void StartGameOverSequence(float delay)
     {
         StartCoroutine(DelayedGameOverRoutine(delay));
@@ -49,12 +79,7 @@ public class GameOverController : MonoBehaviour
         DDAManager.Instance.ResetToDefault(); // Reset DDA modifiers to default
         ValidationTelemetryManager.Instance.ResetTelemetryState();
 
-        if (gameOverFirstButton != null)
-        {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(gameOverFirstButton);
-            Debug.Log("Seleccionando el primer botón del Game Over: " + gameOverFirstButton.name);
-        }
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void ShowVictory()
@@ -65,11 +90,7 @@ public class GameOverController : MonoBehaviour
         if (DDAManager.Instance != null) DDAManager.Instance.ResetToDefault();
         ValidationTelemetryManager.Instance.ResetTelemetryState();
 
-        if (victoryFirstButton != null)
-        {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(victoryFirstButton);
-        }
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void RestartGame()

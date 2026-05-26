@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -38,6 +40,27 @@ public class PauseMenuController : MonoBehaviour
                 PauseGame();
             }
         }
+
+        if (Mouse.current != null && Mouse.current.delta.ReadValue().sqrMagnitude > 0.5)
+        {
+            if (EventSystem.current.currentSelectedGameObject != null)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+        }
+
+        if (EventSystem.current.currentSelectedGameObject == null && isGamePaused)
+        {
+            bool keyboardUsed = Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame;
+            bool gamepadUsed = Gamepad.current != null && (Gamepad.current.leftStick.ReadValue().sqrMagnitude > 0.1f ||
+                Gamepad.current.dpad.ReadValue().sqrMagnitude > 0.1f ||
+                Gamepad.current.buttonSouth.wasPressedThisFrame);
+            if (keyboardUsed || gamepadUsed) 
+            {
+                if (pauseFirstButton != null)
+                    EventSystem.current.SetSelectedGameObject(pauseFirstButton);
+            }
+        }
     }
 
     public void ResumeGame()
@@ -53,10 +76,7 @@ public class PauseMenuController : MonoBehaviour
         Time.timeScale = 0f;
         isGamePaused = true;
         if (pauseFirstButton != null)
-        {
             UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
-            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(pauseFirstButton);
-        }
     }
 
     public void LoadMainMenu()

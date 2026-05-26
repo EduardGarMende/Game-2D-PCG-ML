@@ -44,4 +44,4 @@ def predict_profile(metrics: PlayerMetrics):
         raise HTTPException(status_code=400, detail=f"Error en la predicción: {str(e)}")
 
 if __name__ == "__main__":
-    uvicorn.run("api:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("api:app", host="127.0.0.1", port=8000)
