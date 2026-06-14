@@ -1,0 +1,6 @@
+APM,Precision,AvgDistance,DamageTakenPerMin,DamageDealtPerMin,RangedRatio,DashPerMin,ShieldPerMin,TimeInRiskZone,RewardChosen
+27.76,0.74,5.30,51.14,642.96,0.42,16.07,2.92,0.26,Bow Damage
+31.17,1.00,6.12,14.17,977.67,0.45,11.34,5.67,0.34,Bow Damage
+48.05,0.94,3.94,165.17,1291.29,0.38,12.01,3.00,0.42,Sword Damage
+34.93,0.94,4.97,71.92,873.29,0.41,10.27,6.16,0.32,Sword Damage
+31.20,0.94,3.24,192.69,798.29,0.35,11.01,7.34,0.58,Velocity
