@@ -102,7 +102,7 @@ def main():
     models_dir = 'models'
     os.makedirs(models_dir, exist_ok=True)
     
-    # Exportar el pipeline completo (incluye el preprocesador)
+    # Exportar el pipeline completo
     export_path = os.path.join(models_dir, 'svm_player_profile_model.joblib')
     joblib.dump(final_pipeline, export_path)
     
